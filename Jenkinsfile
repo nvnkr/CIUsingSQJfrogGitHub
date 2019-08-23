@@ -26,8 +26,7 @@ pipeline {
       steps {
         bat 'mvn clean verify -Dsurefire.skip=true'
         junit '**/target/failsafe-reports/TEST-*.xml'
-        
-      }
+              }
       stage ('Publish'){
 def server = Artifactory.server 'JFrog'
 def uploadSpec = """{
