@@ -14,7 +14,7 @@ pipeline {
     stage('UnitTesting') {
       steps {
         junit '**/target/surefire-reports/TEST-*.xml'
-        
+        archiveArtifacts 'target/*.jar'
       }
     }
     stage('Static_Code_Analysis') {
@@ -26,21 +26,8 @@ pipeline {
       steps {
         bat 'mvn clean verify -Dsurefire.skip=true'
         junit '**/target/failsafe-reports/TEST-*.xml'
-        
+        archiveArtifacts 'target/*.jar'
       }
-      stage ('Publish'){
-def server = Artifactory.server 'JFrog'
-def uploadSpec = """{
-"files": [
-{
-"pattern": "target/hello-0.0.1.war",
-"target": "CIUsingSQJfrogGitHub/${BUILD_NUMBER}/",
-"props": "Integration-Tested=Yes;Performance-Tested=No"
-}
-]
-}"""
-server.upload(uploadSpec)
-}
     }
   }
 }
