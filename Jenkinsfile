@@ -14,7 +14,7 @@ pipeline {
     stage('UnitTesting') {
       steps {
         junit '**/target/surefire-reports/TEST-*.xml'
-        archiveArtifacts 'target/*.jar'
+        
       }
     }
     stage('Static_Code_Analysis') {
@@ -26,7 +26,7 @@ pipeline {
       steps {
         bat 'mvn clean verify -Dsurefire.skip=true'
         junit '**/target/failsafe-reports/TEST-*.xml'
-        archiveArtifacts 'target/*.jar'
+        
       }
     }
   }
